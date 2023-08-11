@@ -1,0 +1,47 @@
+[user]
+	name = elderica
+	email = 1130138+elderica@users.noreply.github.com
+[pull]
+	ff = only
+[merge]
+	ff = false
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+[color]
+	ui = auto
+[core]
+	autocrlf = input
+	editor = micro
+	quotepath = false
+	pager = delta
+[commit]
+	verbose = true
+[init]
+	defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+	minus-style                   = syntax "#3a273a"
+	minus-non-emph-style          = syntax "#3a273a"
+	minus-emph-style              = syntax "#6b2e43"
+	minus-empty-line-marker-style = syntax "#3a273a"
+	line-numbers-minus-style      = "#b55a67"
+	plus-style                    = syntax "#273849"
+	plus-non-emph-style           = syntax "#273849"
+	plus-emph-style               = syntax "#305f6f"
+	plus-empty-line-marker-style  = syntax "#273849"
+	line-numbers-plus-style       = "#627259"
+	line-numbers-zero-style       = "#3b4261"
+[credential]
+	helper = store
+[protocol "file"]
+	allow = always
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
