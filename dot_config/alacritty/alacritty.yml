@@ -1,7 +1,7 @@
 window:
   dimensions:
     columns: 90
-    lines: 30
+    lines: 25
   dynamic_title: true
   opacity: 0.9
 scrolling:
