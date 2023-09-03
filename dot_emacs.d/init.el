@@ -44,6 +44,9 @@
     sly-macrostep
     sly-asdf
 
+    ; Rust
+    rust-mode
+
     ; Dockerfile
     dockerfile-mode
     ))
@@ -101,7 +104,10 @@
   (add-hook hook (lambda ()
 		   (flyspell-prog-mode)
 		   (c-set-style "linux"))))
-
+;; Rust
+(add-hook 'rust-mode-hook 'eglot-ensure)
+(with-eval-after-load 'rust-mode
+  (customize-set-variable 'rust-format-on-save t))
 
 ;;; Key bindings
 ;; Switch buffers.
