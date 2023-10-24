@@ -10,6 +10,12 @@
   (load custom-file))
 
 
+;;; Default Frame Position
+(customize-set-value 'default-frame-alist
+		     '((width . 120) (height . 35)
+		       (left . 0) (top . 0)))
+
+
 ;;; Package management
 ;; Initialize `package.el`.
 (require 'package)
