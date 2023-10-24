@@ -74,7 +74,8 @@
 
 ;; Use Steel Bank Common Lisp.
 (eval-after-load 'sly
-  (customize-set-variable 'inferior-lisp-program "sbcl"))
+  (customize-set-variable 'inferior-lisp-program
+			  "sbcl --dynamic-space-size 8192 --control-stack-size 8 --noinform --no-sysinit"))
 
 
 ;;; General configurations
