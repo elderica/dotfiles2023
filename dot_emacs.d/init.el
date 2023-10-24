@@ -31,7 +31,7 @@
 (defvar my/favorite-packages
   '(
     ; Discord integration
-    elcord
+    ;elcord
 
     ; Git integration
     magit
