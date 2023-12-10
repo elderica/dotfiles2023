@@ -97,6 +97,9 @@
 ;; Reload when the file is just updated.
 (global-auto-revert-mode t)
 
+;; Use space for default indentation
+(customize-set-value 'indent-tabs-mode nil)
+
 ;; Get rid of trailing whitespace automatically.
 (add-hook 'prog-mode-hook
  	  (lambda ()
@@ -116,6 +119,10 @@
 (with-eval-after-load 'rust-mode
   (customize-set-variable 'rust-format-on-save t))
 
+;; Makefile
+(add-hook 'makefile-mode (lambda ()
+			   (indent-tabs-mode t)))
+
 ;;; Key bindings
 ;; Switch buffers.
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
@@ -129,11 +136,10 @@
 (global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
 
 
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(let ((opam-user-setup-file (concat user-emacs-directory "opam-user-setup.el")))
-  (when (file-exists-p opam-user-setup-file)
-    (require 'opam-user-setup opam-user-setup-file)))
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
+;;;(let ((opam-user-setup-file (concat user-emacs-directory "opam-user-setup.el")))
+;;;  (when (file-exists-p opam-user-setup-file)
+;;;    (require 'opam-user-setup opam-user-setup-file)))
+
 
 (provide 'init)
 ;;; init.el ends here.
