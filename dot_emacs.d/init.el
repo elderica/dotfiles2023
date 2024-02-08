@@ -61,6 +61,8 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+;; Don't suspend my Emacs!
+(global-unset-key (kbd "C-z"))
 
 ;;; Package setup
 ;; Enable completion `company-mode`.
