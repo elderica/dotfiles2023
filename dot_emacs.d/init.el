@@ -12,7 +12,7 @@
 
 ;;; Default Frame Position
 (customize-set-value 'default-frame-alist
-		     '((width . 120) (height . 35)
+                     '((width . 120) (height . 35)
 		       (left . 0) (top . 0)))
 
 
@@ -134,12 +134,6 @@
 ;; Scroll buffer without cursor movement.
 (global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
 (global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
-
-
-;;;(let ((opam-user-setup-file (concat user-emacs-directory "opam-user-setup.el")))
-;;;  (when (file-exists-p opam-user-setup-file)
-;;;    (require 'opam-user-setup opam-user-setup-file)))
-
 
 (provide 'init)
 ;;; init.el ends here.
