@@ -99,8 +99,8 @@
 ;; Reload when the file is just updated.
 (global-auto-revert-mode t)
 
-;; Use space for default indentation
-(customize-set-value 'indent-tabs-mode nil)
+;; Don't insert TABs by default.
+(setq-default indent-tabs-mode nil)
 
 ;; Get rid of trailing whitespace automatically.
 (add-hook 'prog-mode-hook
@@ -121,9 +121,6 @@
 (with-eval-after-load 'rust-mode
   (customize-set-variable 'rust-format-on-save t))
 
-;; Makefile
-(add-hook 'makefile-mode (lambda ()
-			   (indent-tabs-mode t)))
 
 ;;; Key bindings
 ;; Switch buffers.
