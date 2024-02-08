@@ -77,7 +77,7 @@
 ;; Use Steel Bank Common Lisp.
 (eval-after-load 'sly
   (customize-set-variable 'inferior-lisp-program
-			  "sbcl --dynamic-space-size 8192 --control-stack-size 8 --noinform --no-sysinit"))
+                          "sbcl --dynamic-space-size 8192 --control-stack-size 8 --noinform --no-sysinit"))
 
 
 ;;; General configurations
@@ -100,22 +100,22 @@
 (global-auto-revert-mode t)
 
 ;; Don't insert TABs by default.
-(setq-default indent-tabs-mode nil)
+(customize-save-variable 'indent-tabs-mode nil)
 
 ;; Get rid of trailing whitespace automatically.
 (add-hook 'prog-mode-hook
- 	  (lambda ()
- 	    (add-hook 'before-save-hook
- 		      (lambda () (delete-trailing-whitespace))
- 		      :local t)))
+          (lambda ()
+            (add-hook 'before-save-hook
+                      (lambda () (delete-trailing-whitespace))
+                      :local t)))
 
 
 ;;; Language specific configuration
 ;; C/C++ configurations.
 (dolist (hook '(c-mode-hook c++-mode-hook))
   (add-hook hook (lambda ()
-		   (flyspell-prog-mode)
-		   (c-set-style "linux"))))
+                   (flyspell-prog-mode)
+                   (c-set-style "linux"))))
 ;; Rust
 (add-hook 'rust-mode-hook 'eglot-ensure)
 (with-eval-after-load 'rust-mode
@@ -127,8 +127,8 @@
 (global-set-key (kbd "M-[") 'switch-to-prev-buffer)
 (global-set-key (kbd "M-]") 'switch-to-next-buffer)
 (global-set-key (kbd "C-^")
-		(lambda () (interactive)
-		  (switch-to-buffer (other-buffer))))
+                (lambda () (interactive)
+                  (switch-to-buffer (other-buffer))))
 
 ;; Scroll buffer without cursor movement.
 (global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
