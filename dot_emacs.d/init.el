@@ -1,138 +1,220 @@
-;;; init --- init.el
+;;; init.el --- init.el -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; My Emacs initialization file.
 
 ;;; Code:
+(eval-and-compile
+  (customize-set-variable
+   'package-archives '(("org" . "https://orgmode.org/elpa/")
+                       ("melpa" . "https://melpa.org/packages/")
+                       ("gnu" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless (package-installed-p 'leaf)
+    (package-refresh-contents)
+    (package-install 'leaf))
 
-;;; Customization
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+  (leaf leaf-keywords
+    :ensure t
+    :config
+    (leaf-keywords-init)))
 
+(leaf cus-edit
+  :doc "tools for customizing Emacs and Lisp packages"
+  :tag "builtin" "faces" "help"
+  :custom `((custom-file . ,(locate-user-emacs-file "custom.el")))
+  :config (when (file-exists-p custom-file)
+            (load custom-file)))
 
-;;; Default Frame Position
-(customize-set-value 'default-frame-alist
-                     '((width . 120) (height . 35)
-		       (left . 0) (top . 0)))
+(leaf startup
+  :custom (inhibit-startup-screen . t))
 
+(leaf cus-start
+  :doc "define customization properties of builtins"
+  :tag "builtin" "internal"
+  :custom
+  ((use-dialog-box . t)
+   (use-file-dialog . t)
+   (menu-bar-mode . t)
+   (tool-bar-mode . nil)))
 
-;;; Package management
-;; Initialize `package.el`.
-(require 'package)
-(customize-set-variable
- 'package-archives
- (add-to-list 'package-archives
-	      '("melpa" . "https://melpa.org/packages/")))
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
+(leaf eval
+  :tag "builtin" "internal"
+  :custom
+  (;; launch debbuger if something went wrong
+   (debug-on-error . t)))
 
-;; Ensure my favorite packages are installed.
-(defvar my/favorite-packages
-  '(
-    ; Discord integration
-    ;elcord
+(leaf frame
+  :tag "builtin" "internal"
+  :custom
+  ((frame-resize-pixelwise . t)))
 
-    ; Git integration
-    magit
-    git-gutter
+(leaf minibuf
+  :tag "builtin" "internal"
+  :custom
+  ((history-delete-duplicates . t)))
 
-    ; Completion
-    company
+(leaf buffer
+  :tag "builtin" "internal"
+  :custom
+  (;; enable wordwrap
+   (truncate-lines . nil)))
 
-    ; Syntax checker
-    flycheck
+(leaf xdisp
+  :tag "builtin" "internal"
+  :custom
+  (;; gentle scrolling
+   (scroll-conservatively . 10)))
 
-    ; Common Lisp Development
-    sly
-    sly-quicklisp
-    sly-named-readtables
-    sly-macrostep
-    sly-asdf
+(leaf window
+  :tag "builtin" "internal"
+  :custom
+  (;; gentle scrolling
+   (next-screen-context-lines . 1)
+   ;; do not move my cursor when scrolling
+   (scroll-preserve-screen-position . t)))
 
-    ; Rust
-    rust-mode
+(leaf doc
+  :tag "builtin" "internal"
+  :custom
+  (;; use same quote charactor
+   (text-quoting-style . 'straight)))
 
-    ; Dockerfile
-    dockerfile-mode
-    ))
+(leaf autorevert
+  :doc "revert buffers when files on disk change"
+  :tag "builtin"
+  :custom ((auto-revert-interval . 1))
+  :global-minor-mode global-auto-revert-mode)
 
-(dolist (package my/favorite-packages)
-  (unless (package-installed-p package)
-    (package-install package)))
+(leaf delsel
+  :doc "delete selection if you insert"
+  :tag "builtin"
+  :global-minor-mode delete-selection-mode)
 
-;; Don't suspend my Emacs!
-(global-unset-key (kbd "C-z"))
+(leaf paren
+  :doc "highlight matching paren"
+  :tag "builtin"
+  :global-minor-mode show-paren-mode)
 
-;;; Package setup
-;; Enable completion `company-mode`.
-(add-hook 'after-init-hook 'global-company-mode)
+(leaf which-func
+  :doc "print current function in mode line"
+  :tag "builtin"
+  :global-minor-mode which-function-mode)
 
-;; Enable syntax checking with Flycheck
-(add-hook 'after-init-hook 'global-flycheck-mode)
+(leaf simple
+  :doc "basic editing commands for Emacs"
+  :tag "builtin" "internal"
+  :preface
+  (defun c/delete-trailing-whitespaces ()
+    (interactive)
+    (when (derived-mode-p 'prog-mode)
+      (delete-trailing-whitespace)))
+  :global-minor-mode transient-mark-mode
+  :hook
+  (before-save-hook . c/delete-trailing-whitespaces)
+  :custom
+  (;; indent with spaces
+   (indent-tabs-mode . nil)))
 
-;; Enable git-gutter
-(add-hook 'after-init-hook 'global-git-gutter-mode)
+(leaf my-gui
+  :custom
+  (initial-frame-alist . '((width . 120) (height . 35)
+                           (left . 0) (top . 0))))
+(leaf my-theme
+  :config
+  (load-theme 'misterioso))
 
-;; Use Steel Bank Common Lisp.
-(eval-after-load 'sly
-  (customize-set-variable 'inferior-lisp-program
-                          "sbcl --dynamic-space-size 8192 --control-stack-size 8 --noinform --no-sysinit"))
+(leaf switch-buffers
+  :preface
+  (defun c/switch-to-other-buffer () (interactive)
+         (switch-to-buffer (other-buffer)))
+  :bind
+  ("M-[" . switch-to-prev-buffer)
+  ("M-]" . switch-to-next-buffer)
+  ("C-^" . c/switch-to-other-buffer))
 
+(leaf scroll-buffer-without-cursor-movement
+  :preface
+  (defun c/scroll-up () (interactive) (scroll-up 1))
+  (defun c/scroll-down () (interactive) (scroll-down 1))
+  :bind
+  ("M-n" . c/scroll-up)
+  ("M-p" . c/scroll-down))
 
-;;; General configurations
-;; Use dark theme.
-(load-theme 'misterioso)
+(leaf do-not-suspend-emacs
+  :config
+  (global-unset-key (kbd "C-z")))
 
-;; Replace the active region just by typing text.
-(delete-selection-mode t)
+;; (leaf macrostep
+;;   :ensure t
+;;   :bind (("C-c e" . macrostep-expand)))
 
-;; Highlight corresponding parenthesis.
-(show-paren-mode t)
+(leaf company
+  :doc "Modular text completion framework"
+  :ensure t
+  :hook (after-init-hook . global-company-mode))
 
-;; Display current function name in the mode line.
-(which-function-mode t)
+(leaf flycheck
+  :doc "On-the-fly syntax checking"
+  :ensure t
+  :hook (after-init-hook . global-flycheck-mode))
 
-;; Highlight region.
-(transient-mark-mode t)
+(leaf magit
+  :doc "A Git porcelain inside Emacs"
+  :ensure t)
 
-;; Reload when the file is just updated.
-(global-auto-revert-mode t)
+(leaf git-gutter
+  :doc "Manage Git hunks straight from the buffer"
+  :ensure t
+  :hook (after-init-hook . global-git-gutter-mode))
 
-;; Don't insert TABs by default.
-(customize-save-variable 'indent-tabs-mode nil)
+(leaf dockerfile-mode
+  :doc "Major mode for editing Docker's Dockerfiles"
+  :ensure t)
 
-;; Get rid of trailing whitespace automatically.
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook
-                      (lambda () (delete-trailing-whitespace))
-                      :local t)))
+(leaf cc-mode
+  :doc "major mode for editing C and similar languages"
+  :tag "builtin"
+  :preface
+  (defun c/set-cc-style ()
+    (interactive)
+    (c-set-style "bsd"))
+  :hook
+  (c-mode-hook . c/set-cc-style)
+  (c++-mode-hook . c/set-cc-style))
 
+(leaf rust-mode
+  :doc "Emacs configuration for Rust"
+  :ensure t
+  :hook (rust-mode-hook . eglot-ensure)
+  :custom (rust-format-on-save . t))
 
-;;; Language specific configuration
-;; C/C++ configurations.
-(dolist (hook '(c-mode-hook c++-mode-hook))
-  (add-hook hook (lambda ()
-                   (flyspell-prog-mode)
-                   (c-set-style "linux"))))
-;; Rust
-(add-hook 'rust-mode-hook 'eglot-ensure)
-(with-eval-after-load 'rust-mode
-  (customize-set-variable 'rust-format-on-save t))
+(leaf sly
+  :doc "Sylvester the Cat's Common Lisp IDE"
+  :ensure t
+  :custom
+  `(inferior-lisp-program . ,(string-join
+                              '("sbcl"
+                                "--noinform"
+                                "--no-sysinit"
+                                "--dynamic-space-size" "8192"
+                                "--control-stack-size" "8")
+                              " ")))
 
+;(leaf sly-quicklisp
+;  :after sly
+;  :ensure t)
 
-;;; Key bindings
-;; Switch buffers.
-(global-set-key (kbd "M-[") 'switch-to-prev-buffer)
-(global-set-key (kbd "M-]") 'switch-to-next-buffer)
-(global-set-key (kbd "C-^")
-                (lambda () (interactive)
-                  (switch-to-buffer (other-buffer))))
+;(leaf sly-named-readtables
+;  :after sly
+;  :ensure t)
 
-;; Scroll buffer without cursor movement.
-(global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 1)))
-(global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 1)))
+;(leaf sly-macrostep
+;  :after sly
+;  :ensure t)
+
+;(leaf sly-asdf
+;  :after sly
+;  :ensure t)
 
 (provide 'init)
-;;; init.el ends here.
+;;; init.el ends here
