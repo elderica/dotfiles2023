@@ -194,10 +194,10 @@
   :custom
   `(inferior-lisp-program . ,(string-join
                               '("sbcl"
-                                "--noinform"
-                                "--no-sysinit"
                                 "--dynamic-space-size" "8192"
-                                "--control-stack-size" "8")
+                                "--control-stack-size" "8"
+                                "--noinform"
+                                "--no-sysinit")
                               " ")))
 
 ;(leaf sly-quicklisp
