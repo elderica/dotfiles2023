@@ -162,12 +162,12 @@
 (leaf company
   :doc "Modular text completion framework"
   :ensure t
-  :hook (after-init-hook . global-company-mode))
+  :global-minor-mode global-company-mode)
 
 (leaf flycheck
   :doc "On-the-fly syntax checking"
   :ensure t
-  :hook (after-init-hook . global-flycheck-mode))
+  :global-minor-mode global-flycheck-mode)
 
 (leaf magit
   :doc "A Git porcelain inside Emacs"
@@ -176,7 +176,7 @@
 (leaf git-gutter
   :doc "Manage Git hunks straight from the buffer"
   :ensure t
-  :hook (after-init-hook . global-git-gutter-mode))
+  :global-minor-mode global-git-gutter-mode)
 
 (leaf dockerfile-mode
   :doc "Major mode for editing Docker's Dockerfiles"
