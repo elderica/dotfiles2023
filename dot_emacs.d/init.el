@@ -163,10 +163,57 @@
   :config
   (global-unset-key (kbd "C-z")))
 
+(leaf pulsar
+  :ensure t
+  :hook
+  (next-error-hook . pulsar-pulse-line)
+  (minibuffer-setup-hook . pulsar-pulse-line)
+  (imenu-after-jump-hook . pulsar-recenter-top)
+  :global-minor-mode pulsar-global-mode)
+
 (leaf company
   :doc "Modular text completion framework"
   :ensure t
   :global-minor-mode global-company-mode)
+
+(leaf ivy
+  :doc "a generic completion mechanism for Emacs"
+  :ensure t
+  :custom
+  (ivy-use-virtual-buffers . t)
+  (ivy-count-format . "(%d/%d) ")
+  :bind
+  ("C-x b" . ivy-switch-buffer)
+  ("C-c v" . ivy-push-view)
+  ("C-c V" . ivy-pop-view)
+  :global-minor-mode ivy-mode)
+
+(leaf swiper
+  :doc "an Ivy-enhanced alternative to Isearch"
+  :ensure t
+  :after ivy
+  :bind
+  ("C-s" . swiper-isearch))
+
+(leaf prescient
+  :doc "simple but effective sorting and filtering for Emacs"
+  :ensure t
+  :global-minor-mode prescient-persist-mode)
+
+(leaf ivy-prescient
+  :ensure t
+  :after prescient ivy
+  :global-minor-mode ivy-prescient-mode)
+
+(leaf company-prescient
+  :ensure t
+  :after prescient company
+  :global-minor-mode company-prescient-mode)
+
+(leaf which-key
+  :doc "a minor mode for Emacs that displays the key bindings"
+  :ensure t
+  :global-minor-mode which-key-mode)
 
 (leaf flycheck
   :doc "On-the-fly syntax checking"
