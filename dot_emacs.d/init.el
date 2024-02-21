@@ -108,6 +108,10 @@
 (leaf paren
   :doc "highlight matching paren"
   :tag "builtin"
+  :custom
+  (show-paren-style . 'mixed)
+  (show-paren-when-point-inside-paren . t)
+  (show-paren-when-point-in-periphery . t)
   :global-minor-mode show-paren-mode)
 
 (leaf which-func
