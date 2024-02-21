@@ -159,10 +159,6 @@
   :config
   (global-unset-key (kbd "C-z")))
 
-;; (leaf macrostep
-;;   :ensure t
-;;   :bind (("C-c e" . macrostep-expand)))
-
 (leaf company
   :doc "Modular text completion framework"
   :ensure t
