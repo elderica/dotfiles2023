@@ -47,10 +47,10 @@
   :doc "define customization properties of builtins"
   :tag "builtin" "internal"
   :custom
-  ((use-dialog-box . t)
-   (use-file-dialog . t)
-   (menu-bar-mode . t)
-   (tool-bar-mode . nil)))
+  (use-dialog-box . t)
+  (use-file-dialog . t)
+  (menu-bar-mode . t)
+  (tool-bar-mode . nil))
 
 (leaf eval
   :tag "builtin" "internal"
@@ -61,12 +61,12 @@
 (leaf frame
   :tag "builtin" "internal"
   :custom
-  ((frame-resize-pixelwise . t)))
+  (frame-resize-pixelwise . t))
 
 (leaf minibuf
   :tag "builtin" "internal"
   :custom
-  ((history-delete-duplicates . t)))
+  (history-delete-duplicates . t))
 
 (leaf buffer
   :tag "builtin" "internal"
@@ -97,7 +97,7 @@
 (leaf autorevert
   :doc "revert buffers when files on disk change"
   :tag "builtin"
-  :custom ((auto-revert-interval . 1))
+  :custom (auto-revert-interval . 1)
   :global-minor-mode global-auto-revert-mode)
 
 (leaf delsel
