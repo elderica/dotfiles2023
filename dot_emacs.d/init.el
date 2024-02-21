@@ -215,22 +215,6 @@
                                 "--no-sysinit")
                               " ")))
 
-;(leaf sly-quicklisp
-;  :after sly
-;  :ensure t)
-
-;(leaf sly-named-readtables
-;  :after sly
-;  :ensure t)
-
-;(leaf sly-macrostep
-;  :after sly
-;  :ensure t)
-
-;(leaf sly-asdf
-;  :after sly
-;  :ensure t)
-
 (when (getenv c/env-profile)
   (profiler-report)
   (profiler-stop))
