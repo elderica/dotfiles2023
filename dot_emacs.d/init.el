@@ -203,6 +203,17 @@
   :hook (rust-mode-hook . eglot-ensure)
   :custom (rust-format-on-save . t))
 
+(leaf flycheck-rust
+  :doc "Flycheck for Rust"
+  :ensure t
+  :after rust-mode flycheck
+  :hook (flycheck-mode-hook . flycheck-rust-setup))
+
+(leaf flycheck-eglot
+  :ensure t
+  :after eglot flycheck
+  :global-minor-mode global-flycheck-eglot-mode)
+
 (leaf sly
   :doc "Sylvester the Cat's Common Lisp IDE"
   :ensure t
