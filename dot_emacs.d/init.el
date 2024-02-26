@@ -178,6 +178,10 @@
     :ensure t
     :after eglot flycheck
     :global-minor-mode global-flycheck-eglot-mode)
+  (leaf flycheck-inline
+    :ensure t
+    :after flycheck
+    :hook (flycheck-mode-hook . flycheck-inline-mode))
   (leaf flycheck-rust
     :doc "Flycheck for Rust"
     :ensure t
