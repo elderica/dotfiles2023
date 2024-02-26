@@ -164,44 +164,50 @@
   (imenu-after-jump-hook . pulsar-recenter-top)
   :global-minor-mode pulsar-global-mode)
 
-(leaf company
-  :doc "Modular text completion framework"
-  :ensure t
-  :global-minor-mode global-company-mode)
+;; (leaf company
+;;   :doc "Modular text completion framework"
+;;   :ensure t
+;;   :global-minor-mode global-company-mode)
 
-(leaf ivy
-  :doc "a generic completion mechanism for Emacs"
-  :ensure t
-  :custom
-  (ivy-use-virtual-buffers . t)
-  (ivy-count-format . "(%d/%d) ")
-  :bind
-  ("C-x b" . ivy-switch-buffer)
-  ("C-c v" . ivy-push-view)
-  ("C-c V" . ivy-pop-view)
-  :global-minor-mode ivy-mode)
+;; (leaf ivy
+;;   :doc "a generic completion mechanism for Emacs"
+;;   :ensure t
+;;   :custom
+;;   (ivy-use-virtual-buffers . t)
+;;   (ivy-count-format . "(%d/%d) ")
+;;   :bind
+;;   ("C-x b" . ivy-switch-buffer)
+;;   ("C-c v" . ivy-push-view)
+;;   ("C-c V" . ivy-pop-view)
+;;   :global-minor-mode ivy-mode)
 
-(leaf swiper
-  :doc "an Ivy-enhanced alternative to Isearch"
-  :ensure t
-  :after ivy
-  :bind
-  ("C-s" . swiper-isearch))
+;; (leaf swiper
+;;   :doc "an Ivy-enhanced alternative to Isearch"
+;;   :ensure t
+;;   :after ivy
+;;   :bind
+;;   ("C-s" . swiper-isearch))
 
-(leaf prescient
-  :doc "simple but effective sorting and filtering for Emacs"
-  :ensure t
-  :global-minor-mode prescient-persist-mode)
+;; (leaf prescient
+;;   :doc "simple but effective sorting and filtering for Emacs"
+;;   :ensure t
+;;   :global-minor-mode prescient-persist-mode)
 
-(leaf ivy-prescient
-  :ensure t
-  :after prescient ivy
-  :global-minor-mode ivy-prescient-mode)
+;; (leaf ivy-prescient
+;;   :ensure t
+;;   :after prescient ivy
+;;   :global-minor-mode ivy-prescient-mode)
 
-(leaf company-prescient
-  :ensure t
-  :after prescient company
-  :global-minor-mode company-prescient-mode)
+;; (leaf company-prescient
+;;   :ensure t
+;;   :after prescient company
+;;   :global-minor-mode company-prescient-mode)
+
+(leaf icomplete
+  :doc "minibuffer completion incremental feedback"
+  :global-minor-mode fido-vertical-mode
+  :config
+  (savehist-mode 1))
 
 (leaf which-key
   :doc "a minor mode for Emacs that displays the key bindings"
