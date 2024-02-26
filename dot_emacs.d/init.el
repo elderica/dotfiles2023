@@ -144,13 +144,13 @@
   ("M-]" . switch-to-next-buffer)
   ("C-^" . c/switch-to-other-buffer))
 
-(leaf scroll-buffer-without-cursor-movement
-  :preface
-  (defun c/scroll-up () (interactive) (scroll-up 1))
-  (defun c/scroll-down () (interactive) (scroll-down 1))
-  :bind
-  ("M-n" . c/scroll-up)
-  ("M-p" . c/scroll-down))
+;; (leaf scroll-buffer-without-cursor-movement
+;;   :preface
+;;   (defun c/scroll-up () (interactive) (scroll-up 1))
+;;   (defun c/scroll-down () (interactive) (scroll-down 1))
+;;   :bind
+;;   ("M-n" . c/scroll-up)
+;;   ("M-p" . c/scroll-down))
 
 (leaf do-not-suspend-emacs
   :config
