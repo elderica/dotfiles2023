@@ -51,21 +51,21 @@
   ;; launch debbuger if something went wrong
   (debug-on-error . t))
 
-(leaf frame
-  :tag "builtin" "internal"
-  :custom
-  (frame-resize-pixelwise . t))
+;; (leaf frame
+;;   :tag "builtin" "internal"
+;;   :custom
+;;   (frame-resize-pixelwise . t))
 
 (leaf minibuf
   :tag "builtin" "internal"
   :custom
   (history-delete-duplicates . t))
 
-(leaf buffer
-  :tag "builtin" "internal"
-  :custom
-  (;; enable wordwrap
-   (truncate-lines . nil)))
+;; (leaf buffer
+;;   :tag "builtin" "internal"
+;;   :custom
+;;   ;; enable wordwrap
+;;   (truncate-lines . nil))
 
 (leaf xdisp
   :tag "builtin" "internal"
