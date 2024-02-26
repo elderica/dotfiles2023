@@ -48,8 +48,8 @@
 (leaf eval
   :tag "builtin" "internal"
   :custom
-  (;; launch debbuger if something went wrong
-   (debug-on-error . t)))
+  ;; launch debbuger if something went wrong
+  (debug-on-error . t))
 
 (leaf frame
   :tag "builtin" "internal"
@@ -70,22 +70,22 @@
 (leaf xdisp
   :tag "builtin" "internal"
   :custom
-  (;; gentle scrolling
-   (scroll-conservatively . 10)))
+  ;; gentle scrolling
+  (scroll-conservatively . 10))
 
 (leaf window
   :tag "builtin" "internal"
   :custom
-  (;; gentle scrolling
-   (next-screen-context-lines . 1)
-   ;; do not move my cursor when scrolling
-   (scroll-preserve-screen-position . t)))
+  ;; gentle scrolling
+  (next-screen-context-lines . 1)
+  ;; do not move my cursor when scrolling
+  (scroll-preserve-screen-position . t))
 
 (leaf doc
   :tag "builtin" "internal"
   :custom
-  (;; use same quote charactor
-   (text-quoting-style . 'straight)))
+  ;; use same quote charactor
+  (text-quoting-style . 'straight))
 
 (leaf autorevert
   :doc "revert buffers when files on disk change"
@@ -124,8 +124,8 @@
   :hook
   (before-save-hook . c/delete-trailing-whitespaces)
   :custom
-  (;; indent with spaces
-   (indent-tabs-mode . nil)))
+  ;; indent with spaces
+  (indent-tabs-mode . nil))
 
 (leaf my-gui
   :custom
