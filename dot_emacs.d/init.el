@@ -192,6 +192,10 @@
   :doc "Major mode for editing Docker's Dockerfiles"
   :ensure t)
 
+(leaf markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode))
+
 (leaf cc-mode
   :doc "major mode for editing C and similar languages"
   :tag "builtin"
