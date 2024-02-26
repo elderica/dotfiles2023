@@ -51,21 +51,10 @@
   ;; launch debbuger if something went wrong
   (debug-on-error . t))
 
-;; (leaf frame
-;;   :tag "builtin" "internal"
-;;   :custom
-;;   (frame-resize-pixelwise . t))
-
 (leaf minibuf
   :tag "builtin" "internal"
   :custom
   (history-delete-duplicates . t))
-
-;; (leaf buffer
-;;   :tag "builtin" "internal"
-;;   :custom
-;;   ;; enable wordwrap
-;;   (truncate-lines . nil))
 
 (leaf xdisp
   :tag "builtin" "internal"
@@ -144,14 +133,6 @@
   ("M-]" . switch-to-next-buffer)
   ("C-^" . c/switch-to-other-buffer))
 
-;; (leaf scroll-buffer-without-cursor-movement
-;;   :preface
-;;   (defun c/scroll-up () (interactive) (scroll-up 1))
-;;   (defun c/scroll-down () (interactive) (scroll-down 1))
-;;   :bind
-;;   ("M-n" . c/scroll-up)
-;;   ("M-p" . c/scroll-down))
-
 (leaf do-not-suspend-emacs
   :config
   (global-unset-key (kbd "C-z")))
@@ -163,45 +144,6 @@
   (minibuffer-setup-hook . pulsar-pulse-line)
   (imenu-after-jump-hook . pulsar-recenter-top)
   :global-minor-mode pulsar-global-mode)
-
-;; (leaf company
-;;   :doc "Modular text completion framework"
-;;   :ensure t
-;;   :global-minor-mode global-company-mode)
-
-;; (leaf ivy
-;;   :doc "a generic completion mechanism for Emacs"
-;;   :ensure t
-;;   :custom
-;;   (ivy-use-virtual-buffers . t)
-;;   (ivy-count-format . "(%d/%d) ")
-;;   :bind
-;;   ("C-x b" . ivy-switch-buffer)
-;;   ("C-c v" . ivy-push-view)
-;;   ("C-c V" . ivy-pop-view)
-;;   :global-minor-mode ivy-mode)
-
-;; (leaf swiper
-;;   :doc "an Ivy-enhanced alternative to Isearch"
-;;   :ensure t
-;;   :after ivy
-;;   :bind
-;;   ("C-s" . swiper-isearch))
-
-;; (leaf prescient
-;;   :doc "simple but effective sorting and filtering for Emacs"
-;;   :ensure t
-;;   :global-minor-mode prescient-persist-mode)
-
-;; (leaf ivy-prescient
-;;   :ensure t
-;;   :after prescient ivy
-;;   :global-minor-mode ivy-prescient-mode)
-
-;; (leaf company-prescient
-;;   :ensure t
-;;   :after prescient company
-;;   :global-minor-mode company-prescient-mode)
 
 (leaf icomplete
   :doc "minibuffer completion incremental feedback"
