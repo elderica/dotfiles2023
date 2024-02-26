@@ -156,11 +156,6 @@
   :ensure t
   :global-minor-mode which-key-mode)
 
-(leaf flycheck
-  :doc "On-the-fly syntax checking"
-  :ensure t
-  :global-minor-mode global-flycheck-mode)
-
 (leaf magit
   :doc "A Git porcelain inside Emacs"
   :ensure t)
@@ -169,6 +164,21 @@
   :doc "Manage Git hunks straight from the buffer"
   :ensure t
   :global-minor-mode global-git-gutter-mode)
+
+(leaf flycheck
+  :doc "On-the-fly syntax checking"
+  :ensure t
+  :global-minor-mode global-flycheck-mode
+  :config
+  (leaf flycheck-eglot
+    :ensure t
+    :after eglot flycheck
+    :global-minor-mode global-flycheck-eglot-mode)
+  (leaf flycheck-rust
+    :doc "Flycheck for Rust"
+    :ensure t
+    :after rust-mode
+    :hook (flycheck-mode-hook . flycheck-rust-setup)))
 
 (leaf dockerfile-mode
   :doc "Major mode for editing Docker's Dockerfiles"
@@ -190,17 +200,6 @@
   :ensure t
   :hook (rust-mode-hook . eglot-ensure)
   :custom (rust-format-on-save . t))
-
-(leaf flycheck-rust
-  :doc "Flycheck for Rust"
-  :ensure t
-  :after rust-mode flycheck
-  :hook (flycheck-mode-hook . flycheck-rust-setup))
-
-(leaf flycheck-eglot
-  :ensure t
-  :after eglot flycheck
-  :global-minor-mode global-flycheck-eglot-mode)
 
 (leaf sly
   :doc "Sylvester the Cat's Common Lisp IDE"
