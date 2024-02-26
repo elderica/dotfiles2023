@@ -12,13 +12,6 @@
            (file-name-directory (or load-file-name byte-compile-current-file))))))
 
 (eval-and-compile
-  (require 'profiler)
-  (defconst c/env-profile "PROFILE_INIT_EL"))
-
-(when (getenv c/env-profile)
-  (profiler-start 'cpu))
-
-(eval-and-compile
   (customize-set-variable
    'package-archives '(("org" . "https://orgmode.org/elpa/")
                        ("melpa" . "https://melpa.org/packages/")
@@ -272,10 +265,6 @@
                                 "--noinform"
                                 "--no-sysinit")
                               " ")))
-
-(when (getenv c/env-profile)
-  (profiler-report)
-  (profiler-stop))
 
 (provide 'init)
 ;;; init.el ends here
