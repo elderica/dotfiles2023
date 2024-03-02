@@ -164,6 +164,12 @@
   :doc "A Git porcelain inside Emacs"
   :ensure t)
 
+(leaf magit-delta
+  :ensure t
+  :after magit
+  :hook
+  (magit-mode . magit-delta-mode))
+
 (leaf git-gutter
   :doc "Manage Git hunks straight from the buffer"
   :ensure t
