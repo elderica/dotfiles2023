@@ -196,16 +196,26 @@
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode))
 
+(eval-and-compile
+  ;; https://github.com/freebsd/freebsd-src/blob/main/tools/tools/editing/freebsd.el
+  (defun bsd-knf ()
+    (interactive)
+    (c-set-style "bsd")
+    (indent-tabs-mode 1)
+    (c-set-offset 'defun-block-intro 8)
+    (c-set-offset 'statement-block-intro 8)
+    (c-set-offset 'statement-case-intro 8)
+    (c-set-offset 'substatement-open 4)
+    (c-set-offset 'substatement 8)
+    (c-set-offset 'arglist-cont-nonempty 4)
+    (c-set-offset 'inclass 8)
+    (c-set-offset 'knr-argdecl-intro 8)))
+
 (leaf cc-mode
   :doc "major mode for editing C and similar languages"
   :tag "builtin"
-  :preface
-  (defun c/set-cc-style ()
-    (interactive)
-    (c-set-style "bsd"))
   :hook
-  (c-mode-hook . c/set-cc-style)
-  (c++-mode-hook . c/set-cc-style))
+  (c-mode-common-hook . (lambda () (bsd-knf))))
 
 (leaf rust-mode
   :doc "Emacs configuration for Rust"
