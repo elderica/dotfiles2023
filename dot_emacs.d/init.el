@@ -234,6 +234,8 @@
 (leaf sly
   :doc "Sylvester the Cat's Common Lisp IDE"
   :ensure t
+  :bind
+  ("C-c l" . sly-eval-print-last-expression)
   :custom
   `((inferior-lisp-program . ,(string-join init/sbcl-command " "))
     (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
