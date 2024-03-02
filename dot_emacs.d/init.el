@@ -137,6 +137,16 @@
   :config
   (global-unset-key (kbd "C-z")))
 
+(leaf misc
+  :bind ("C-c d" . duplicate-dwim))
+
+(leaf windmove
+  :config
+  (windmove-default-keybindings 'meta))
+
+(leaf winner
+  :global-minor-mode winner-mode)
+
 (leaf macrostep
   :ensure t
   :bind (("C-c e" . macrostep-expand)))
