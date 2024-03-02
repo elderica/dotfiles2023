@@ -223,17 +223,21 @@
   :hook (rust-mode-hook . eglot-ensure)
   :custom (rust-format-on-save . t))
 
+(eval-and-compile
+  (defvar init/sbcl-command
+    '("sbcl"
+      "--dynamic-space-size" "8192"
+      "--control-stack-size" "8"
+      "--noinform"
+      "--no-sysinit")))
+
 (leaf sly
   :doc "Sylvester the Cat's Common Lisp IDE"
   :ensure t
   :custom
-  `(inferior-lisp-program . ,(string-join
-                              '("sbcl"
-                                "--dynamic-space-size" "8192"
-                                "--control-stack-size" "8"
-                                "--noinform"
-                                "--no-sysinit")
-                              " ")))
+  `((inferior-lisp-program . ,(string-join init/sbcl-command " "))
+    (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
+                                  (ecl ("ecl"))))))
 
 (provide 'init)
 ;;; init.el ends here
