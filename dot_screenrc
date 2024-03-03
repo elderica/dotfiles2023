@@ -12,3 +12,4 @@ hardstatus string '%{gk}[%{G}%H%{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)
 term screen-256color
 #termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'  # ANSI (256-color) patterns - AB: background, AF: foreground
 #attrcolor b ".I"                                          # use bright colors for bold text
+termcapinfo xterm*|rxvt*|kterm*|Eterm* ti@:te@
