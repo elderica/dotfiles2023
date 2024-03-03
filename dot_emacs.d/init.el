@@ -234,5 +234,11 @@
 (leaf rainbow-delimiters :ensure t
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 
+(leaf smartparens :ensure t
+  :hook (prog-mode-hook . smartparens-global-mode)
+  :config
+  (electric-pair-mode -1)
+  (require 'smartparens-config))
+
 (provide 'init)
 ;;; init.el ends here
