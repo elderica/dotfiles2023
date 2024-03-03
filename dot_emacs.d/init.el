@@ -231,5 +231,8 @@
   :bind (("C-a" . mwim-beginning-of-code-or-line)
          ("C-e" . mwim-end-of-code-or-line)))
 
+(leaf rainbow-delimiters :ensure t
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
+
 (provide 'init)
 ;;; init.el ends here
