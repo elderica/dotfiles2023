@@ -226,5 +226,10 @@
             (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
                                           (ecl ("ecl"))))))
 
+(leaf mwim :ensure t
+  :doc "Move Where I Mean"
+  :bind (("C-a" . mwim-beginning-of-code-or-line)
+         ("C-e" . mwim-end-of-code-or-line)))
+
 (provide 'init)
 ;;; init.el ends here
