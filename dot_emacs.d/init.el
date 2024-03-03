@@ -1,16 +1,13 @@
 ;;; init.el --- init.el -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;; My Emacs initialization file.
-
 ;;; Code:
 ;; this enables this running method
 ;; emacs -q -l ~/.debug.emacs.d/init.el
 (eval-and-compile
   (when (or load-file-name byte-compile-current-file)
     (setq user-emacs-directory
-          (expand-file-name
-           (file-name-directory (or load-file-name byte-compile-current-file))))))
-
+          (expand-file-name (file-name-directory (or load-file-name byte-compile-current-file))))))
 (eval-and-compile
   (customize-set-variable
    'package-archives '(("org" . "https://orgmode.org/elpa/")
@@ -20,61 +17,41 @@
   (unless (package-installed-p 'leaf)
     (package-refresh-contents)
     (package-install 'leaf))
-
-  (leaf leaf-keywords
-    :ensure t
-    :config
-    (leaf-keywords-init)))
+  (leaf leaf-keywords :ensure t :config (leaf-keywords-init)))
 
 (leaf cus-edit
   :doc "tools for customizing Emacs and Lisp packages"
   :tag "builtin" "faces" "help"
   :custom `((custom-file . ,(locate-user-emacs-file "custom.el")))
-  :config (when (file-exists-p custom-file)
-            (load custom-file)))
+  :config (when (file-exists-p custom-file) (load custom-file)))
 
-(leaf startup
-  :custom (inhibit-startup-screen . t))
+(leaf startup :custom (inhibit-startup-screen . t))
 
 (leaf cus-start
   :doc "define customization properties of builtins"
   :tag "builtin" "internal"
-  :custom
-  (use-dialog-box . t)
-  (use-file-dialog . t)
-  (menu-bar-mode . t)
-  (tool-bar-mode . nil))
+  :custom ((use-dialog-box . t)
+           (use-file-dialog . t)
+           (menu-bar-mode . t)
+           (tool-bar-mode . nil)))
 
 (leaf eval
   :tag "builtin" "internal"
-  :custom
-  ;; launch debbuger if something went wrong
-  (debug-on-error . t))
-
-(leaf minibuf
-  :tag "builtin" "internal"
-  :custom
-  (history-delete-duplicates . t))
+  :custom (debug-on-error . t))
 
 (leaf xdisp
-  :tag "builtin" "internal"
-  :custom
-  ;; gentle scrolling
-  (scroll-conservatively . 10))
+  :tag "builtin" "internal" "scrolling"
+  :custom (scroll-conservatively . 10))
 
 (leaf window
-  :tag "builtin" "internal"
-  :custom
-  ;; gentle scrolling
-  (next-screen-context-lines . 1)
-  ;; do not move my cursor when scrolling
-  (scroll-preserve-screen-position . t))
+  :tag "builtin" "internal" "scrolling"
+  :custom ((next-screen-context-lines . 1)
+           ;; do not move my cursor when scrolling
+           (scroll-preserve-screen-position . t)))
 
 (leaf doc
   :tag "builtin" "internal"
-  :custom
-  ;; use same quote charactor
-  (text-quoting-style . 'straight))
+  :custom (text-quoting-style . 'straight))
 
 (leaf autorevert
   :doc "revert buffers when files on disk change"
@@ -90,11 +67,10 @@
 (leaf paren
   :doc "highlight matching paren"
   :tag "builtin"
-  :custom
-  (show-paren-style . 'mixed)
-  (show-paren-when-point-inside-paren . t)
-  (show-paren-when-point-in-periphery . t)
-  :global-minor-mode show-paren-mode)
+  :global-minor-mode show-paren-mode
+  :custom ((show-paren-style . 'mixed)
+           (show-paren-when-point-inside-paren . t)
+           (show-paren-when-point-in-periphery . t)))
 
 (leaf which-func
   :doc "print current function in mode line"
@@ -104,113 +80,73 @@
 (leaf simple
   :doc "basic editing commands for Emacs"
   :tag "builtin" "internal"
-  :preface
-  (defun c/delete-trailing-whitespaces ()
-    (interactive)
-    (when (derived-mode-p 'prog-mode)
-      (delete-trailing-whitespace)))
+  :custom (indent-tabs-mode . nil)
   :global-minor-mode transient-mark-mode
-  :hook
-  (before-save-hook . c/delete-trailing-whitespaces)
-  :custom
-  ;; indent with spaces
-  (indent-tabs-mode . nil))
+  :hook (before-save-hook . (lambda () (interactive)
+                              (when (derived-mode-p 'prog-mode)
+                                (delete-trailing-whitespace)))))
 
-(leaf my-gui
-  :custom
-  (initial-frame-alist . '((width . 120) (height . 35)
-                           (left . 0) (top . 0))))
-(leaf my-theme
-  :config
-  (load-theme 'misterioso))
+(leaf my-gui :custom (initial-frame-alist . '((width . 120) (height . 35)
+                                              (left . 0) (top . 0))))
 
-(leaf switch-buffers
-  :preface
-  (defun c/switch-to-other-buffer () (interactive)
-         (switch-to-buffer (other-buffer)))
-  :bind
+(leaf my-theme :config (load-theme 'misterioso))
+
+(leaf switch-buffers :bind
   ("M-[" . switch-to-prev-buffer)
   ("M-]" . switch-to-next-buffer)
-  ("C-^" . c/switch-to-other-buffer))
+  ("C-^" . (lambda () (interactive) (switch-to-buffer (other-buffer)))))
 
-(leaf do-not-suspend-emacs
-  :config
-  (global-unset-key (kbd "C-z")))
+(leaf do-not-suspend-emacs :config (global-unset-key (kbd "C-z")))
 
-(leaf misc
-  :bind ("C-c d" . duplicate-dwim))
+(leaf misc :bind ("C-c d" . duplicate-dwim))
 
-(leaf windmove
-  :config
-  (windmove-default-keybindings 'meta))
+(leaf windmove :config (windmove-default-keybindings 'meta))
 
-(leaf winner
-  :global-minor-mode winner-mode)
+(leaf winner :global-minor-mode winner-mode)
 
-(leaf macrostep
-  :ensure t
-  :bind (("C-c e" . macrostep-expand)))
+(leaf macrostep :ensure t :bind (("C-c e" . macrostep-expand)))
 
-(leaf pulsar
-  :ensure t
-  :hook
-  (next-error-hook . pulsar-pulse-line)
-  (minibuffer-setup-hook . pulsar-pulse-line)
-  (imenu-after-jump-hook . pulsar-recenter-top)
-  :global-minor-mode pulsar-global-mode)
+(leaf pulsar :ensure t
+  :global-minor-mode pulsar-global-mode
+  :hook ((next-error-hook . pulsar-pulse-line)
+         (minibuffer-setup-hook . pulsar-pulse-line)
+         (imenu-after-jump-hook . pulsar-recenter-top)))
 
 (leaf icomplete
   :doc "minibuffer completion incremental feedback"
-  :global-minor-mode fido-vertical-mode
-  :config
-  (savehist-mode 1))
+  :global-minor-mode fido-vertical-mode)
 
-(leaf which-key
+(leaf history
+  :custom (history-delete-duplicates . t)
+  :config (savehist-mode 1))
+
+(leaf which-key :ensure t
   :doc "a minor mode for Emacs that displays the key bindings"
-  :ensure t
   :global-minor-mode which-key-mode)
 
-(leaf magit
-  :doc "A Git porcelain inside Emacs"
-  :ensure t)
+(leaf magit :ensure t :doc "A Git porcelain inside Emacs"
+  :config (leaf magit-delta :ensure t
+            :after magit :hook (magit-mode . magit-delta-mode)))
 
-(leaf magit-delta
-  :ensure t
-  :after magit
-  :hook
-  (magit-mode . magit-delta-mode))
-
-(leaf git-gutter
+(leaf git-gutter :ensure t
   :doc "Manage Git hunks straight from the buffer"
-  :ensure t
   :global-minor-mode global-git-gutter-mode)
 
-(leaf flycheck
+(leaf flycheck :ensure t
   :doc "On-the-fly syntax checking"
-  :ensure t
   :global-minor-mode global-flycheck-mode
   :config
-  (leaf flycheck-eglot
-    :ensure t
-    :after eglot flycheck
-    :global-minor-mode global-flycheck-eglot-mode)
-  (leaf flycheck-inline
-    :ensure t
-    :after flycheck
-    :hook (flycheck-mode-hook . flycheck-inline-mode))
-  (leaf flycheck-rust
+  (leaf flycheck-eglot :ensure t
+    :after eglot flycheck :global-minor-mode global-flycheck-eglot-mode)
+  (leaf flycheck-inline :ensure t
+    :after flycheck :hook (flycheck-mode-hook . flycheck-inline-mode))
+  (leaf flycheck-rust :ensure t
     :doc "Flycheck for Rust"
-    :ensure t
-    :after rust-mode
-    :hook (flycheck-mode-hook . flycheck-rust-setup)))
+    :after rust-mode :hook (flycheck-mode-hook . flycheck-rust-setup)))
 
-(leaf dockerfile-mode
-  :doc "Major mode for editing Docker's Dockerfiles"
-  :ensure t)
+(leaf dockerfile-mode :ensure t :doc "Major mode for editing Docker's Dockerfiles")
 
-(leaf markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode))
+(leaf markdown-mode :ensure t :mode ("README\\.md\\'" . gfm-mode))
 
 (eval-and-compile
   ;; https://github.com/freebsd/freebsd-src/blob/main/tools/tools/editing/freebsd.el
@@ -230,12 +166,10 @@
 (leaf cc-mode
   :doc "major mode for editing C and similar languages"
   :tag "builtin"
-  :hook
-  (c-mode-common-hook . (lambda () (bsd-knf))))
+  :hook (c-mode-common-hook . (lambda () (bsd-knf))))
 
-(leaf rust-mode
+(leaf rust-mode :ensure t
   :doc "Emacs configuration for Rust"
-  :ensure t
   :hook (rust-mode-hook . eglot-ensure)
   :custom (rust-format-on-save . t))
 
@@ -247,15 +181,12 @@
       "--noinform"
       "--no-sysinit")))
 
-(leaf sly
+(leaf sly :ensure t
   :doc "Sylvester the Cat's Common Lisp IDE"
-  :ensure t
-  :bind
-  ("C-c l" . sly-eval-print-last-expression)
-  :custom
-  `((inferior-lisp-program . ,(string-join init/sbcl-command " "))
-    (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
-                                  (ecl ("ecl"))))))
+  :bind ("C-c l" . sly-eval-print-last-expression)
+  :custom `((inferior-lisp-program . ,(string-join init/sbcl-command " "))
+            (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
+                                          (ecl ("ecl"))))))
 
 (provide 'init)
 ;;; init.el ends here
