@@ -12,7 +12,7 @@
 	ui = auto
 [core]
 	autocrlf = input
-	editor = micro
+	editor = emacs -nw
 	quotepath = false
 	pager = delta
 [commit]
