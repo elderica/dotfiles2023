@@ -118,6 +118,7 @@
 
 (leaf history
   :custom (history-delete-duplicates . t)
+  :custom ((savehist-additional-variables . '(corfu-history)))
   :config (savehist-mode 1))
 
 (leaf which-key :ensure t
@@ -143,6 +144,43 @@
   (leaf flycheck-rust :ensure t
     :doc "Flycheck for Rust"
     :after rust-mode :hook (flycheck-mode-hook . flycheck-rust-setup)))
+
+(leaf corfu :ensure t
+  :doc "COmpletion in Region FUnction"
+  :global-minor-mode global-corfu-mode
+  :global-minor-mode corfu-history
+  :global-minor-mode corfu-indexed-mode
+  :global-minor-mode corfu-echo-mode
+  :hook ((minibuffer-setup-hook . (lambda ()
+                                    (unless (eq (current-local-map) read-passwd-map)
+                                      (setq-local corfu-auto nil
+                                                  corfu-echo-delay nil
+                                                  corfu-popupinfo-delay nil)
+                                      (corfu-mode 1))))
+         (eshell-mode-hook  . (lambda ()
+                                (setq-local corfu-auto nil)
+                                (corfu-mode 1))))
+  :custom ((corfu-auto . t)
+           (corfu-cycle . t))
+  :config (leaf corfu-terminal :ensure t
+            :after corfu :unless (display-graphic-p) :global-minor-mode corfu-terminal-mode))
+
+(leaf cape :ensure t
+  :doc "Let your completions fly!"
+  :config (progn (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+                 (add-to-list 'completion-at-point-functions #'cape-keyword)
+                 (add-to-list 'completion-at-point-functions #'cape-emoji)
+                 (add-to-list 'completion-at-point-functions #'cape-file)))
+
+(leaf marginalia :ensure t
+  :doc "Marginalia in the minibuffer"
+  :global-minor-mode marginalia-mode)
+
+(leaf orderless :ensure t
+  :custom ((completion-styles . '(orderless basic))
+           (orderless-matching-styles . '(orderless-literal
+                                          orderless-flex
+                                          orderless-regexp))))
 
 (leaf dockerfile-mode :ensure t :doc "Major mode for editing Docker's Dockerfiles")
 
