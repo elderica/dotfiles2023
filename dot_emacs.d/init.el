@@ -182,6 +182,54 @@
                                           orderless-flex
                                           orderless-regexp))))
 
+(leaf consult :ensure t
+  :doc "COnsulting completing-read"
+  :custom ((xref-show-xref-function . #'consult-xref)
+           (xref-show-definitions-function . #'consult-xref))
+  :bind (("C-x M-:" . consult-complex-command)
+         ("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x t b" . consult-buffer-other-tab)
+         ("C-x r b" . consult-bookmark)
+         ("C-x p b" . consult-project-buffer)
+
+         ("C-c r l" . consult-register-load)
+         ("C-c r s" . consult-register-store)
+         ("C-c r r". consult-register)
+
+         ("C-S-y" . consult-yank-from-kill-ring)
+         ("M-y" . consult-yank-pop)
+
+         ("M-g e" . consult-compile-error)
+
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+
+         ("M-s d" . consult-find)
+         ("M-s c" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+         ("M-s e" . consult-isearch-history)
+         (:isearch-mode-map
+          ("M-e" . consult-isearch-history)
+          ("M-s e" . consult-isearch-history)
+          ("M-s l" . consult-line)
+          ("M-s L" . consult-line-multi))
+         (:minibuffer-local-map
+          ("M-s" . consult-history)
+          ("M-r" . consult-history))))
+
 (leaf dockerfile-mode :ensure t :doc "Major mode for editing Docker's Dockerfiles")
 
 (leaf markdown-mode :ensure t :mode ("README\\.md\\'" . gfm-mode))
