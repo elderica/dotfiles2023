@@ -86,7 +86,7 @@
                               (when (derived-mode-p 'prog-mode)
                                 (delete-trailing-whitespace)))))
 
-(leaf my-gui :custom (initial-frame-alist . '((width . 120) (height . 35)
+(leaf my-gui :custom (initial-frame-alist . '((width . 140) (height . 35)
                                               (left . 0) (top . 0))))
 
 (leaf my-theme :config (load-theme 'misterioso))
