@@ -272,7 +272,8 @@
   :bind ("C-c l" . sly-eval-print-last-expression)
   :custom `((inferior-lisp-program . ,(string-join init/sbcl-command " "))
             (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
-                                          (ecl ("ecl"))))))
+                                          (ecl ("ecl"))))
+            (sly-common-lisp-style-default . "modern")))
 
 (leaf mwim :ensure t
   :doc "Move Where I Mean"
