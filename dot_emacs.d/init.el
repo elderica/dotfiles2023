@@ -69,8 +69,8 @@
   :tag "builtin"
   :global-minor-mode show-paren-mode
   :custom ((show-paren-style . 'mixed)
-           (show-paren-when-point-inside-paren . t)
-           (show-paren-when-point-in-periphery . t)))
+           (show-paren-when-point-inside-paren . nil)
+           (show-paren-when-point-in-periphery . nil)))
 
 (leaf which-func
   :doc "print current function in mode line"
