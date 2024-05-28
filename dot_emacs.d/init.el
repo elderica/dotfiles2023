@@ -64,13 +64,13 @@
   :tag "builtin"
   :global-minor-mode delete-selection-mode)
 
-(leaf paren
-  :doc "highlight matching paren"
-  :tag "builtin"
-  :global-minor-mode show-paren-mode
-  :custom ((show-paren-style . 'mixed)
-           (show-paren-when-point-inside-paren . nil)
-           (show-paren-when-point-in-periphery . nil)))
+;; (leaf paren
+;;   :doc "highlight matching paren"
+;;   :tag "builtin"
+;;   :global-minor-mode show-paren-mode
+;;   :custom ((show-paren-style . 'expression)
+;;            (show-paren-when-point-inside-paren . nil)
+;;            (show-paren-when-point-in-periphery . nil)))
 
 (leaf which-func
   :doc "print current function in mode line"
@@ -284,9 +284,11 @@
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 
 (leaf smartparens :ensure t
-  :hook (prog-mode-hook . smartparens-global-mode)
+  :hook (prog-mode-hook . smartparens-global-strict-mode)
+  :hook (prog-mode-hook . show-smartparens-global-mode)
   :config
   (electric-pair-mode -1)
+  (show-paren-mode -1)
   (require 'smartparens-config))
 
 (provide 'init)
