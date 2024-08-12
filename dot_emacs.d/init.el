@@ -139,6 +139,9 @@
   :doc "a minor mode for Emacs that displays the key bindings"
   :global-minor-mode which-key-mode)
 
+(leaf recentf
+  :global-minor-mode recentf-mode)
+
 (leaf magit :ensure t :doc "A Git porcelain inside Emacs"
   :config (leaf magit-delta :ensure t
             :after magit :hook (magit-mode . magit-delta-mode)))
@@ -235,6 +238,7 @@
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ("M-s e" . consult-isearch-history)
+         ("M-s R". consult-recent-file)
          (:isearch-mode-map
           ("M-e" . consult-isearch-history)
           ("M-s e" . consult-isearch-history)
