@@ -259,6 +259,8 @@
   :hook (rust-mode-hook . eglot-ensure)
   :custom (rust-format-on-save . t))
 
+(leaf yaml-mode :ensure t)
+
 (eval-and-compile
   (defvar init/sbcl-command
     '("sbcl"
