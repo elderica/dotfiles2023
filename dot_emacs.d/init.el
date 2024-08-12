@@ -291,5 +291,8 @@
   (show-paren-mode -1)
   (require 'smartparens-config))
 
+(leaf ocp-indent :ensure t
+  :require t)
+
 (provide 'init)
 ;;; init.el ends here
