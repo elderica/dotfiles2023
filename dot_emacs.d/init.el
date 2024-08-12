@@ -96,6 +96,20 @@
   ("M-]" . switch-to-next-buffer)
   ("C-^" . (lambda () (interactive) (switch-to-buffer (other-buffer)))))
 
+(leaf move-between-whitespaces :bind
+  ("M-m" . (lambda () (interactive) (forward-whitespace 1)))
+  ("M-n" . (lambda () (interactive) (forward-whitespace -1))))
+
+(eval-and-compile
+  (defun init/modify-syntax-entry/lisp ()
+    (interactive)
+    (modify-syntax-entry ?_ "w")
+    (modify-syntax-entry ?- "w")))
+
+(leaf add-perimeter-of-word :hook
+  ((lisp-mode-hook . init/modify-syntax-enrty/lisp)
+   (emacs-lisp-mode . init/modify-syntax-entry/lisp)))
+
 (leaf do-not-suspend-emacs :config (global-unset-key (kbd "C-z")))
 
 (leaf misc :bind ("C-c d" . duplicate-dwim))
