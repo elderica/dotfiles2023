@@ -232,7 +232,10 @@
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
 
+         ("M-s m" . consult-man)
+
          ("M-s d" . consult-find)
+         ("M-s D" . consult-fd)
          ("M-s c" . consult-locate)
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
