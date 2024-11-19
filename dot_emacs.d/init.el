@@ -321,5 +321,16 @@
 (leaf ocp-indent :ensure t
   :require t)
 
+(leaf elpy :ensure t
+  :init (elpy-enable)
+  :config
+  (remove-hook 'elpy-modules 'elpy-module-flymake)
+  :custom
+  ((elpy-rpc-python-command . "python3")
+   (flycheck-python-flake8-executable . "flake8"))
+  :bind (elpy-mode-map
+         ("C-c C-r f" . elpy-format-code))
+  :hook ((elpy-mode-hook . flycheck-mode)))
+
 (provide 'init)
 ;;; init.el ends here
