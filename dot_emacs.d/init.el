@@ -75,7 +75,8 @@
 (leaf which-func
   :doc "print current function in mode line"
   :tag "builtin"
-  :global-minor-mode which-function-mode)
+  :global-minor-mode which-function-mode
+  :custom-face (which-func . '((t (:foreground "lawn green")))))
 
 (leaf simple
   :doc "basic editing commands for Emacs"
