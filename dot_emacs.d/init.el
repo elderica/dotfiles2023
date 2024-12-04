@@ -293,13 +293,17 @@
       "--dynamic-space-size" "8192"
       "--control-stack-size" "8"
       "--noinform"
-      "--no-sysinit")))
+      "--no-sysinit"))
+  (defvar init/qlot-ros-command
+    '("qlot" "exec" "ros" "run")))
 
 (leaf sly :ensure t
   :doc "Sylvester the Cat's Common Lisp IDE"
   :bind ("C-c l" . sly-eval-print-last-expression)
   :custom `((inferior-lisp-program . ,(string-join init/sbcl-command " "))
-            (sly-lisp-implementations . `((sbcl ,init/sbcl-command)
+            (sly-lisp-implementations . `((qlot/ros ,init/qlot-ros-command)
+                                          (sbcl ,init/sbcl-command)
+                                          (ccl ("ccl"))
                                           (ecl ("ecl"))))
             (sly-common-lisp-style-default . "modern")))
 
