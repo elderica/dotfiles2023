@@ -7,7 +7,8 @@
 (eval-and-compile
   (when (or load-file-name byte-compile-current-file)
     (setq user-emacs-directory
-          (expand-file-name (file-name-directory (or load-file-name byte-compile-current-file))))))
+          (expand-file-name (file-name-directory (or load-file-name byte-compile-current-file)))))
+  (customize-set-variable 'package-native-compile t))
 (eval-and-compile
   (customize-set-variable
    'package-archives '(("org" . "https://orgmode.org/elpa/")
