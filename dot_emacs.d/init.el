@@ -338,5 +338,7 @@
          ("C-c C-r f" . elpy-format-code))
   :hook ((elpy-mode-hook . flycheck-mode)))
 
+(leaf graphviz-dot-mode :ensure t)
+
 (provide 'init)
 ;;; init.el ends here
