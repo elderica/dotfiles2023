@@ -39,7 +39,7 @@
 
 (leaf eval
   :tag "builtin" "internal"
-  :custom (debug-on-error . t))
+  :custom (debug-on-error . nil))
 
 (leaf xdisp
   :tag "builtin" "internal" "scrolling"
