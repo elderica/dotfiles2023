@@ -165,17 +165,17 @@
   :doc "Manage Git hunks straight from the buffer"
   :global-minor-mode global-git-gutter-mode)
 
-(leaf flycheck :ensure t
-  :doc "On-the-fly syntax checking"
-  :global-minor-mode global-flycheck-mode
-  :config
-  (leaf flycheck-eglot :ensure t
-    :after eglot flycheck :global-minor-mode global-flycheck-eglot-mode)
-  (leaf flycheck-inline :ensure t
-    :after flycheck :hook (flycheck-mode-hook . flycheck-inline-mode))
-  (leaf flycheck-rust :ensure t
-    :doc "Flycheck for Rust"
-    :after rust-mode :hook (flycheck-mode-hook . flycheck-rust-setup)))
+;; (leaf flycheck :ensure t
+;;   :doc "On-the-fly syntax checking"
+;;   :global-minor-mode global-flycheck-mode
+;;   :config
+;;   (leaf flycheck-eglot :ensure t
+;;     :after eglot flycheck :global-minor-mode global-flycheck-eglot-mode)
+;;   (leaf flycheck-inline :ensure t
+;;     :after flycheck :hook (flycheck-mode-hook . flycheck-inline-mode))
+;;   (leaf flycheck-rust :ensure t
+;;     :doc "Flycheck for Rust"
+;;     :after rust-mode :hook (flycheck-mode-hook . flycheck-rust-setup)))
 
 (leaf corfu :ensure t
   :doc "COmpletion in Region FUnction"
