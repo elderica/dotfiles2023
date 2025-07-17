@@ -266,9 +266,9 @@
           ("M-s" . consult-history)
           ("M-r" . consult-history))))
 
-(leaf dockerfile-mode :ensure t :doc "Major mode for editing Docker's Dockerfiles")
+;(leaf dockerfile-mode :ensure t :doc "Major mode for editing Docker's Dockerfiles")
 
-(leaf markdown-mode :ensure t :mode ("README\\.md\\'" . gfm-mode))
+;(leaf markdown-mode :ensure t :mode ("README\\.md\\'" . gfm-mode))
 
 (eval-and-compile
   ;; https://github.com/freebsd/freebsd-src/blob/main/tools/tools/editing/freebsd.el
@@ -295,7 +295,7 @@
   :hook (rust-mode-hook . eglot-ensure)
   :custom (rust-format-on-save . t))
 
-(leaf yaml-mode :ensure t)
+;(leaf yaml-mode :ensure t)
 
 (eval-and-compile
   (defvar init/sbcl-command
@@ -325,29 +325,34 @@
 (leaf rainbow-delimiters :ensure t
   :hook (prog-mode-hook . rainbow-delimiters-mode))
 
-(leaf smartparens :ensure t
-  :hook (prog-mode-hook . smartparens-global-mode)
-  :hook (prog-mode-hook . show-smartparens-global-mode)
+;; (leaf smartparens :ensure t
+;;   :hook (prog-mode-hook . smartparens-global-mode)
+;;   :hook (prog-mode-hook . show-smartparens-global-mode)
+;;   :config
+;;   (electric-pair-mode -1)
+;;   (show-paren-mode -1)
+;;   (require 'smartparens-config))
+
+(leaf paren
   :config
-  (electric-pair-mode -1)
-  (show-paren-mode -1)
-  (require 'smartparens-config))
+  (show-paren-mode 1)
+  (electric-pair-mode 1))
 
-(leaf ocp-indent :ensure t
-  :require t)
+;; (leaf ocp-indent :ensure t
+;;   :require t)
 
-(leaf elpy :ensure t
-  :init (elpy-enable)
-  :config
-  (remove-hook 'elpy-modules 'elpy-module-flymake)
-  :custom
-  ((elpy-rpc-python-command . "python3")
-   (flycheck-python-flake8-executable . "flake8"))
-  :bind (elpy-mode-map
-         ("C-c C-r f" . elpy-format-code))
-  :hook ((elpy-mode-hook . flycheck-mode)))
+;; (leaf elpy :ensure t
+;;   :init (elpy-enable)
+;;   :config
+;;   (remove-hook 'elpy-modules 'elpy-module-flymake)
+;;   :custom
+;;   ((elpy-rpc-python-command . "python3")
+;;    (flycheck-python-flake8-executable . "flake8"))
+;;   :bind (elpy-mode-map
+;;          ("C-c C-r f" . elpy-format-code))
+;;   :hook ((elpy-mode-hook . flycheck-mode)))
 
-(leaf graphviz-dot-mode :ensure t)
+;(leaf graphviz-dot-mode :ensure t)
 
 (provide 'init)
 ;;; init.el ends here
