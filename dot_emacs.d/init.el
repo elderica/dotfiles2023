@@ -270,25 +270,53 @@
 
 ;(leaf markdown-mode :ensure t :mode ("README\\.md\\'" . gfm-mode))
 
-(eval-and-compile
-  ;; https://github.com/freebsd/freebsd-src/blob/main/tools/tools/editing/freebsd.el
-  (defun bsd-knf ()
-    (interactive)
-    (c-set-style "bsd")
-    (indent-tabs-mode 1)
-    (c-set-offset 'defun-block-intro 8)
-    (c-set-offset 'statement-block-intro 8)
-    (c-set-offset 'statement-case-intro 8)
-    (c-set-offset 'substatement-open 4)
-    (c-set-offset 'substatement 8)
-    (c-set-offset 'arglist-cont-nonempty 4)
-    (c-set-offset 'inclass 8)
-    (c-set-offset 'knr-argdecl-intro 8)))
+;; (leaf eglot
+;;   ;; Do not mess up indentation
+;;   :custom (eglot-ignored-server-capabilities
+;;            '(:documentFormattingProvider
+;;              :documentRangeFormattingProvider
+;;              :documentOnTypeFormattingProvider)))
+
+;; (eval-and-compile
+;;   ;; https://github.com/freebsd/freebsd-src/blob/main/tools/tools/editing/freebsd.el
+;;   (defun bsd-knf ()
+;;     (interactive)
+;;     (c-set-style "bsd")
+;;     (indent-tabs-mode 1)
+;;     (c-set-offset 'defun-block-intro 8)
+;;     (c-set-offset 'statement-block-intro 8)
+;;     (c-set-offset 'statement-case-intro 8)
+;;     (c-set-offset 'substatement-open 4)
+;;     (c-set-offset 'substatement 8)
+;;     (c-set-offset 'arglist-cont-nonempty 4)
+;;     (c-set-offset 'inclass 8)
+;;     (c-set-offset 'knr-argdecl-intro 8)))
+
+;; (leaf openbsd-knf-emacs
+;;   :require cc-defs openbsd-knf-style
+;;   :vc (:url "https://github.com/hogand/openbsd-knf-emacs.git")
+;;   :config
+;;   (c-add-style "hogand-openbsd" openbsd-knf-style)
+;;   ;(customize-set-variable 'c-default-style '((c-mode . "hogand-openbsd")))
+;;   )
 
 (leaf cc-mode
   :doc "major mode for editing C and similar languages"
   :tag "builtin"
-  :hook (c-mode-common-hook . (lambda () (bsd-knf))))
+  :config (progn
+            ;; https://www.emacswiki.org/emacs/IndentingC
+            (c-add-style "emacswiki-openbsd"
+              '("bsd"
+                (c-backspace-function . delete-backward-char)
+                (c-syntactic-indentation-in-macros . nil)
+                (c-tab-always-indent . nil)
+                (c-hanging-braces-alist
+                 (block-close . c-snug-do-while))
+                (c-offsets-alist
+                 (arglist-cont-nonempty . *)
+                 (statement-cont . *))
+                (indent-tabs-mode . t)))
+            (customize-set-variable 'c-default-style '((c-mode . "emacswiki-openbsd")))))
 
 (leaf rust-mode :ensure t
   :doc "Emacs configuration for Rust"
