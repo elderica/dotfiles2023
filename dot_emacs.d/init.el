@@ -65,6 +65,15 @@
   :tag "builtin"
   :global-minor-mode delete-selection-mode)
 
+(leaf backups
+  :doc "backup file configuration"
+  :tag "builtin"
+  :preface (progn
+             (defvar --backup-directory (concat user-emacs-directory "backups"))
+             (unless (file-exists-p --backup-directory))
+                 (make-directory --backup-directory t))
+  :custom (backup-directory-alist . `(("." . ,--backup-directory))))
+
 ;; (leaf paren
 ;;   :doc "highlight matching paren"
 ;;   :tag "builtin"
