@@ -1,9 +1,49 @@
 ;;; post-init.el --- My main config -*- no-byte-compile: t; lexical-binding: t; -*-
 
 (setopt custom-file (locate-user-emacs-file "custom.el"))
-(when (file-exists-p custom-file) (load custom-file 'noerror 'no-message))
+(setopt package-install-upgrade-built-in t)
 
-(global-unset-key (kbd "C-z"))
+;;
+;; Beginning of lines take from `https://github.com/jamescherti/minimal-emacs.d'
+;;
+;; Native compilation enhances Emacs performance by converting Elisp code into
+;; native machine code, resulting in faster execution and improved
+;; responsiveness.
+(use-package compile-angel
+  :demand t
+  :config
+  ;; The following disables compilation of packages during installation;
+  ;; compile-angel will handle it.
+  (setq package-native-compile nil)
+
+  ;; Set `compile-angel-verbose' to nil to disable compile-angel messages.
+  ;; (When set to nil, compile-angel won't show which file is being compiled.)
+  (setq compile-angel-verbose t)
+
+  ;; The following directive prevents compile-angel from compiling your init
+  ;; files. If you choose to remove this push to `compile-angel-excluded-files'
+  ;; and compile your pre/post-init files, ensure you understand the
+  ;; implications and thoroughly test your code. For example, if you're using
+  ;; the `use-package' macro, you'll need to explicitly add:
+  ;; (eval-when-compile (require 'use-package))
+  ;; at the top of your init file.
+  (push "/init.el" compile-angel-excluded-files)
+  (push "/early-init.el" compile-angel-excluded-files)
+  (push "/pre-init.el" compile-angel-excluded-files)
+  (push "/post-init.el" compile-angel-excluded-files)
+  (push "/pre-early-init.el" compile-angel-excluded-files)
+  (push "/post-early-init.el" compile-angel-excluded-files)
+
+  ;; A local mode that compiles .el files whenever the user saves them.
+  ;; (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode)
+
+  ;; A global mode that compiles .el files prior to loading them via `load' or
+  ;; `require'. Additionally, it compiles all packages that were loaded before
+  ;; the mode `compile-angel-on-load-mode' was activated.
+  (compile-angel-on-load-mode 1))
+;;
+;; End of lines taken from `https://github.com/jamescherti/minimal-emacs.d'
+;;
 
 (use-package windmove
   :ensure nil
@@ -12,6 +52,7 @@
           (windmove-display-default-keybindings)
           (windmove-delete-default-keybindings))
 
+(global-unset-key (kbd "C-z"))
 (bind-keys ("M-[" . switch-to-prev-buffer)
            ("M-]" . switch-to-next-buffer)
            ("C-^" . (lambda () (interactive) (switch-to-buffer (other-buffer))))
@@ -42,7 +83,6 @@
 
 (use-package cc-mode
   :ensure nil
-  :disabled t
   :config
   ;; https://www.emacswiki.org/emacs/IndentingC
   (c-add-style "emacswiki-openbsd"
@@ -56,15 +96,16 @@
                   (arglist-cont-nonempty . *)
                   (statement-cont . *))
                  (indent-tabs-mode . t)))
-  (setopt c-default-style '((c-mode . "emacswiki-openbsd")
-                            (java-mode . "java")
-                            (awk-mode . "awk")
-                            (other . "gnu"))))
+  ;; https://github.com/hogand/openbsd-knf-emacs
+  (when (file-directory-p "~/.elisp/openbsd-knf-emacs")
+    (add-to-list 'load-path "~/.elisp/openbsd-knf-emacs")
+    (require 'openbsd-knf-style)
+    (c-add-style "openbsd-knf-emacs" openbsd-knf-style)
+    (setf (alist-get 'other c-default-style) "openbsd-knf-emacs")))
 
 (transient-mark-mode 1)
 
-(setopt indent-tabs-mode nil)
-
+(setopt show-trailing-whitespace t)
 (add-hook 'before-save-hook
           (lambda () (interactive)
             (when (derived-mode-p 'prog-mode)
@@ -106,8 +147,8 @@
          (imenu-after-jump-hook . pulsar-recenter-top))
   :config (pulsar-global-mode))
 
-(use-package magit
-  :ensure t)
+;;(use-package magit
+;;  :ensure t)
 
 (use-package rust-mode
   :ensure t
@@ -125,61 +166,22 @@
   :ensure t
   :mode ("\\.dot\\'"))
 
-;; (use-package eglot
-;;   :ensure nil
-;;   :commands (eglot-ensure
-;;              eglot-rename
-;;              eglot-format-buffer)
-;;   ;; Do not mess up indentation
-;;   :custom (eglot-ignored-server-capabilities
-;;            '(:documentFormattingProvider
-;;              :documentRangeFormattingProvider
-;;              :documentOnTypeFormattingProvider)))
+(use-package eglot
+  :ensure nil
+  :commands (eglot-ensure
+             eglot-rename
+             eglot-format-buffer)
+  ;; Do not mess up indentation
+  :custom (eglot-ignored-server-capabilities
+           '(:documentFormattingProvider
+             :documentRangeFormattingProvider
+             :documentOnTypeFormattingProvider)))
 
 ;;
 ;; Beginning of lines take from `https://github.com/jamescherti/minimal-emacs.d'
 ;;
-
-;; Native compilation enhances Emacs performance by converting Elisp code into
-;; native machine code, resulting in faster execution and improved
-;; responsiveness.
-;;
-;; Ensure adding the following compile-angel code at the very beginning
-;; of your `~/.emacs.d/post-init.el` file, before all other packages.
-(use-package compile-angel
-  :demand t
-  :config
-  ;; The following disables compilation of packages during installation;
-  ;; compile-angel will handle it.
-  (setq package-native-compile nil)
-
-  ;; Set `compile-angel-verbose' to nil to disable compile-angel messages.
-  ;; (When set to nil, compile-angel won't show which file is being compiled.)
-  (setq compile-angel-verbose t)
-
-  ;; The following directive prevents compile-angel from compiling your init
-  ;; files. If you choose to remove this push to `compile-angel-excluded-files'
-  ;; and compile your pre/post-init files, ensure you understand the
-  ;; implications and thoroughly test your code. For example, if you're using
-  ;; the `use-package' macro, you'll need to explicitly add:
-  ;; (eval-when-compile (require 'use-package))
-  ;; at the top of your init file.
-  (push "/init.el" compile-angel-excluded-files)
-  (push "/early-init.el" compile-angel-excluded-files)
-  (push "/pre-init.el" compile-angel-excluded-files)
-  (push "/post-init.el" compile-angel-excluded-files)
-  (push "/pre-early-init.el" compile-angel-excluded-files)
-  (push "/post-early-init.el" compile-angel-excluded-files)
-
-  ;; A local mode that compiles .el files whenever the user saves them.
-  ;; (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode)
-
-  ;; A global mode that compiles .el files prior to loading them via `load' or
-  ;; `require'. Additionally, it compiles all packages that were loaded before
-  ;; the mode `compile-angel-on-load-mode' was activated.
-  (compile-angel-on-load-mode 1))
-
 (use-package diff-hl
+  :ensure t
   :commands (diff-hl-mode
              global-diff-hl-mode)
   :hook (prog-mode . diff-hl-mode)
@@ -388,13 +390,6 @@
   (:map markdown-mode-map
         ("C-c C-e" . markdown-do)))
 
-;; Set up the Language Server Protocol (LSP) servers using Eglot.
-(use-package eglot
-  :ensure nil
-  :commands (eglot-ensure
-             eglot-rename
-             eglot-format-buffer))
-
 ;; This automates the process of updating installed packages
 (use-package auto-package-update
   :custom
@@ -454,10 +449,10 @@
              bufferfile-delete)
   :custom
   ;; If non-nil, display messages during file renaming operations
-  (bufferfile-verbose nil)
+  (bufferfile-verbose t)
 
   ;; If non-nil, enable using version control (VC) when available
-  (bufferfile-use-vc nil)
+  (bufferfile-use-vc t)
 
   ;; Specifies the action taken after deleting a file and killing its buffer.
   (bufferfile-delete-switch-to 'parent-directory))
@@ -507,4 +502,4 @@
 ;; End of lines taken from `https://github.com/jamescherti/minimal-emacs.d'
 ;;
 
-(provide 'init)
+(provide 'post-init)

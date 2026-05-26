@@ -1,0 +1,4 @@
+[".elisp/openbsd-knf-emacs"]
+    type = "git-repo"
+    url = "https://github.com/hogand/openbsd-knf-emacs.git"
+    refreshPeriod = "168h"
