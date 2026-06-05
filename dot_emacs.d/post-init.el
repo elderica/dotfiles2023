@@ -18,7 +18,7 @@
 
   ;; Set `compile-angel-verbose' to nil to disable compile-angel messages.
   ;; (When set to nil, compile-angel won't show which file is being compiled.)
-  (setq compile-angel-verbose t)
+  (setq compile-angel-verbose nil)
 
   ;; The following directive prevents compile-angel from compiling your init
   ;; files. If you choose to remove this push to `compile-angel-excluded-files'
@@ -122,12 +122,11 @@
   (use-package sly
     :ensure t
     :commands (sly sly-mode)
-    :mode ("\\.lisp\\'" "\\.cl\\'" "\\.asd\\'")
-    :interpreter ("sbcl" "ros")
+    :hook (lisp-mode . sly-mode)
+    :hook (lisp-mode . (lambda () (setq indent-tabs-mode nil)))
     :bind ("C-c l" . sly-eval-print-last-expression)
     :config
-    (setopt indent-tabs-mode nil
-            inferior-lisp-program (string-join sbcl-command " ")
+    (setopt inferior-lisp-program (string-join sbcl-command " ")
             sly-lisp-implementations `((qlot ,qlot-ros-command)
                                        (sbcl ,sbcl-command)
                                        (ccl ("ccl"))
@@ -154,13 +153,13 @@
   :ensure t
   :commands rust-mode
   :mode ("\\.rs\\'")
-  :hook ((rust-mode-hook . eglot-ensure))
+  :hook ((rust-mode . eglot-ensure))
   :custom ((rust-format-on-save t)
            (rust-indent-offset 2)))
 
 (use-package rainbow-delimiters
   :ensure t
-  :hook (prog-mode-hook . rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package graphviz-dot-mode
   :ensure t
