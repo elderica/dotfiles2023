@@ -63,6 +63,12 @@
 (global-auto-revert-mode 1)
 (delete-selection-mode 1)
 
+(setopt use-default-font-for-symbols nil)
+(set-face-attribute 'default nil
+                    :height 130 :weight 'normal :family "PlemolJP Text")
+(set-fontset-font t 'emoji (font-spec :family "Noto Color Emoji"))
+(set-fontset-font t 'symbol (font-spec :family "Noto Color Emoji") nil 'append)
+
 (setopt scroll-preserve-screen-position t)
 (setopt text-quoting-style 'straight)
 
