@@ -112,10 +112,6 @@
 (transient-mark-mode 1)
 
 (setopt show-trailing-whitespace t)
-(add-hook 'before-save-hook
-          (lambda () (interactive)
-            (when (derived-mode-p 'prog-mode)
-              (delete-trailing-whitespace))))
 
 (let ((sbcl-command
        '("sbcl"
