@@ -45,6 +45,11 @@
 ;; End of lines taken from `https://github.com/jamescherti/minimal-emacs.d'
 ;;
 
+(defun my-disable-terminal-extras ()
+  (send-string-to-terminal "\e[?1004l")  ;; disable focus report
+  (send-string-to-terminal "\e[?2004l")) ;; disable bracketed paste
+(add-hook 'tty-setup-hook 'my-disable-terminal-extras)
+
 (use-package windmove
   :ensure nil
   :config (windmove-default-keybindings)
