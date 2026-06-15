@@ -45,11 +45,6 @@
 ;; End of lines taken from `https://github.com/jamescherti/minimal-emacs.d'
 ;;
 
-(defun my-disable-terminal-extras ()
-  (send-string-to-terminal "\e[?1004l")  ;; disable focus report
-  (send-string-to-terminal "\e[?2004l")) ;; disable bracketed paste
-(add-hook 'tty-setup-hook 'my-disable-terminal-extras)
-
 (use-package windmove
   :ensure nil
   :config (windmove-default-keybindings)
@@ -57,10 +52,9 @@
           (windmove-display-default-keybindings)
           (windmove-delete-default-keybindings))
 
+;; Don't touch "M-[" (Control Sequence Introducer)!
 (global-unset-key (kbd "C-z"))
-(bind-keys ("M-[" . switch-to-prev-buffer)
-           ("M-]" . switch-to-next-buffer)
-           ("C-^" . (lambda () (interactive) (switch-to-buffer (other-buffer))))
+(bind-keys ("C-^" . (lambda () (interactive) (switch-to-buffer (other-buffer))))
            ("M-m" . (lambda () (interactive) (forward-whitespace 1)))
            ("M-n" . (lambda () (interactive) (forward-whitespace -1)))
            ("C-c d" . duplicate-dwim))
