@@ -59,6 +59,9 @@
            ("M-n" . (lambda () (interactive) (forward-whitespace -1)))
            ("C-c d" . duplicate-dwim))
 
+;; OSC 52 clipboard integration
+(setopt xterm-extra-capabilities '(getSelection setSelection modifyOtherKeys))
+
 (delete-selection-mode 1)
 
 (setopt use-default-font-for-symbols nil)
@@ -118,7 +121,7 @@
   (use-package sly
     :ensure t
     :commands (sly sly-mode)
-    :hook (lisp-mode . sly-mode)
+    ;:hook (lisp-mode . sly-mode)
     :hook (lisp-mode . (lambda () (setq indent-tabs-mode nil)))
     :bind ("C-c l" . sly-eval-print-last-expression)
     :config
