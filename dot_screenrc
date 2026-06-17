@@ -4,6 +4,7 @@ escape ^Zz
 term screen-256color
 termcapinfo xterm*|rxvt*|kterm*|Eterm* ti@:te@
 altscreen on
+cjkwidth off
 
 truecolor on
 hardstatus off
