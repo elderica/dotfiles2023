@@ -108,7 +108,7 @@
 
 (transient-mark-mode 1)
 
-(setopt show-trailing-whitespace t)
+(setopt show-trailing-whitespace nil)
 
 (let ((sbcl-command
        '("sbcl"
