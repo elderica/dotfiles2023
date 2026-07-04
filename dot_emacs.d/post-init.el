@@ -58,6 +58,8 @@
            ("M-m" . (lambda () (interactive) (forward-whitespace 1)))
            ("M-n" . (lambda () (interactive) (forward-whitespace -1)))
            ("C-c d" . duplicate-dwim))
+;; https://www.masteringemacs.org/article/text-expansion-hippie-expand
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; OSC 52 clipboard integration
 (setopt xterm-extra-capabilities '(getSelection setSelection modifyOtherKeys))
