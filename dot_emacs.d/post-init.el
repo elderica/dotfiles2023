@@ -177,6 +177,15 @@
              :documentRangeFormattingProvider
              :documentOnTypeFormattingProvider)))
 
+(use-package xterm-color
+  :ensure t)
+
+(use-package vterm
+  :ensure t)
+
+(use-package eat
+  :ensure t)
+
 ;;
 ;; Beginning of lines take from `https://github.com/jamescherti/minimal-emacs.d'
 ;;
