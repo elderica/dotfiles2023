@@ -5,7 +5,7 @@
 	ff = only
 [merge]
 	ff = false
-	conflictstyle = diff3
+	conflictStyle = zdiff3
 [diff]
 	colorMoved = default
 [color]
