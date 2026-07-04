@@ -179,7 +179,9 @@
   :ensure t)
 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :bind (:map vterm-mode-map
+              ("C-q" . vterm-send-next-key)))
 
 (use-package eat
   :ensure t)
