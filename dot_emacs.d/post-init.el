@@ -179,6 +179,7 @@
   :ensure t)
 
 (use-package vterm
+  :if (memq system-type '(gnu/linux cygwin))
   :ensure t
   :bind (:map vterm-mode-map
               ("C-q" . vterm-send-next-key)))
