@@ -1,4 +1,0 @@
-Host *
-     ControlMaster auto
-     ControlPath ~/.ssh/mux-%r@%h:%p
-     ControlPersist 4h
